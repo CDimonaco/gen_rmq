@@ -11,6 +11,12 @@ defmodule GenRMQ.Message do
   @enforce_keys [:attributes, :payload, :channel]
   defstruct [:attributes, :payload, :channel]
 
+  @type t() :: %__MODULE__{
+          attributes: map(),
+          payload: binary(),
+          channel: AMQP.Channel.t()
+        }
+
   @doc false
   def create(attributes, payload, channel) do
     %__MODULE__{
