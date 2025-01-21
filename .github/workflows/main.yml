@@ -60,13 +60,54 @@ jobs:
       - name: Dialyzer checks
         run: mix dialyzer
 
-  unit_test:
-    name: Run ExUnit tests
+  unit_test_rabbitmq_3:
+    name: Run ExUnit tests against rabbitmq 3
     runs-on: ubuntu-20.04
 
     services:
       rabbitmq:
         image: rabbitmq:3-management
+        ports:
+          - 5672:5672
+
+    strategy:
+      matrix:
+        elixir:
+          - '1.14'
+          - '1.15'
+          - '1.16'
+          - '1.17'
+          - '1.18'
+        otp:
+          - '26.x'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
+      - name: Restore dependencies cache
+        uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}-${{ matrix.otp }}-${{ matrix.elixir }}
+          restore-keys: ${{ runner.os }}-mix--${{ matrix.otp }}-${{ matrix.elixir }}
+      - name: Install dependencies
+        run: mix deps.get
+      - name: ExUnit tests
+        env:
+          MIX_ENV: test
+        run: mix coveralls.github
+  
+  unit_test_rabbitmq_4:
+    name: Run ExUnit tests against rabbitmq 4
+    runs-on: ubuntu-20.04
+
+    services:
+      rabbitmq:
+        image: rabbitmq:4-management
         ports:
           - 5672:5672
 
