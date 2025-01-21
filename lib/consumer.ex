@@ -255,7 +255,7 @@ defmodule GenRMQ.Consumer do
 
   `message` - `GenRMQ.Message` struct
   """
-  @spec ack(message :: %GenRMQ.Message{}) :: :ok
+  @spec ack(message :: GenRMQ.Message.t()) :: :ok
   def ack(%Message{channel: channel, attributes: %{delivery_tag: tag}} = message) do
     Telemetry.emit_message_ack_event(message)
 
@@ -269,7 +269,7 @@ defmodule GenRMQ.Consumer do
 
   `requeue` - indicates if message should be requeued
   """
-  @spec reject(message :: %GenRMQ.Message{}, requeue :: boolean) :: :ok
+  @spec reject(message :: GenRMQ.Message.t(), requeue :: boolean) :: :ok
   def reject(%Message{channel: channel, attributes: %{delivery_tag: tag}} = message, requeue \\ false) do
     Telemetry.emit_message_reject_event(message, requeue)
 
