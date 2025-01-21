@@ -62,7 +62,7 @@ jobs:
 
   unit_test:
     name: Run ExUnit tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     services:
       rabbitmq:
@@ -73,18 +73,13 @@ jobs:
     strategy:
       matrix:
         elixir:
-          - '1.11'
-          - '1.12'
-          - '1.13'
           - '1.14'
           - '1.15'
+          - '1.16'
+          - '1.17'
+          - '1.18'
         otp:
-          - '22.x'
-          - '23.x'
-          - '24.x'
-          - '25.x'
           - '26.x'
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -97,8 +92,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: deps
-          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
-          restore-keys: ${{ runner.os }}-mix-
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}-${{ matrix.otp }}-${{ matrix.elixir }}
+          restore-keys: ${{ runner.os }}-mix--${{ matrix.otp }}-${{ matrix.elixir }}
       - name: Install dependencies
         run: mix deps.get
       - name: ExUnit tests
