@@ -388,7 +388,7 @@ defmodule GenRMQ.Consumer do
   @doc false
   @impl GenServer
   def handle_info({:basic_cancel, %{consumer_tag: consumer_tag}}, %{module: module} = state) do
-    Logger.warn("[#{module}]: The consumer was unexpectedly cancelled, tag: #{consumer_tag}")
+    Logger.warning("[#{module}]: The consumer was unexpectedly cancelled, tag: #{consumer_tag}")
     {:stop, :cancelled, state}
   end
 
