@@ -284,7 +284,7 @@ defmodule GenRMQ.Consumer do
   @impl GenServer
   def init(%{module: module} = initial_state) do
     Process.flag(:trap_exit, true)
-    config = apply(module, :init, [])
+    config = module.init()
     parsed_config = parse_config(config)
     terminate_timeout = Keyword.get(parsed_config, :terminate_timeout, 5_000)
     handle_message_timeout = Keyword.get(parsed_config, :handle_message_timeout, 5_000)
@@ -333,8 +333,7 @@ defmodule GenRMQ.Consumer do
         Process.cancel_timer(timeout_reference)
         updated_state = %{state | running_tasks: Map.delete(running_tasks, ref)}
         Telemetry.emit_message_exception_event(module, message, start_time, reason)
-        apply(module, :handle_error, [message, reason])
-
+        module.handle_error(message, reason)
         {:noreply, updated_state}
 
       _ ->
@@ -496,7 +495,8 @@ defmodule GenRMQ.Consumer do
         start_time = System.monotonic_time()
 
         Telemetry.emit_message_start_event(message, module)
-        result = apply(module, :handle_message, [message])
+        result = module.handle_message(message)
+
         Telemetry.emit_message_stop_event(start_time, message, module)
 
         result
@@ -510,7 +510,8 @@ defmodule GenRMQ.Consumer do
     Telemetry.emit_message_start_event(message, module)
 
     try do
-      result = apply(module, :handle_message, [message])
+      result = module.handle_message(message)
+
       Telemetry.emit_message_stop_event(start_time, message, module)
 
       result
@@ -518,7 +519,7 @@ defmodule GenRMQ.Consumer do
       reason ->
         full_error = {reason, __STACKTRACE__}
         Telemetry.emit_message_exception_event(module, message, start_time, :error, reason, __STACKTRACE__)
-        apply(module, :handle_error, [message, full_error])
+        module.handle_error(message, full_error)
         :error
     end
   end
@@ -597,7 +598,7 @@ defmodule GenRMQ.Consumer do
 
     Basic.qos(chan, prefetch_count: prefetch_count)
     setup_queue(queue_config.name, queue_config.options, chan, config[:exchange], config[:routing_key])
-    consumer_tag = apply(module, :consumer_tag, [])
+    consumer_tag = module.consumer_tag()
     {:ok, _consumer_tag} = Basic.consume(chan, queue_config.name, nil, consumer_tag: consumer_tag)
     state
   end

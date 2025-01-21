@@ -213,7 +213,7 @@ defmodule GenRMQ.Publisher do
   @impl GenServer
   def init(%{module: module} = initial_state) do
     Process.flag(:trap_exit, true)
-    config = apply(module, :init, [])
+    config = module.init()
     state = Map.merge(initial_state, %{config: config})
 
     {:ok, state, {:continue, :init}}
