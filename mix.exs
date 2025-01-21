@@ -42,7 +42,7 @@ defmodule GenRMQ.Mixfile do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:amqp, "~> 3.0"},
+      {:amqp, "~> 4.0"},
       {:telemetry, "~> 1.0"},
       {:credo, "~> 1.5", only: :dev},
       {:excoveralls, "~> 0.14", only: :test},
