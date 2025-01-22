@@ -31,9 +31,7 @@ GenRMQ requires Elixir 1.14 or newer, running on at least OTP 26.
 
 ```elixir
 def deps do
-  {:gen_rmq,
-    github: "cdimonaco/gen_rmq",
-    ref: "v5.0.0"},
+  {:gen_rmq, github: "cdimonaco/gen_rmq", ref: "v5.0.0"}
 end
 ```
 
