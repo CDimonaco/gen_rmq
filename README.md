@@ -1,9 +1,9 @@
-[![Build Status](https://github.com/meltwater/gen_rmq/workflows/GenRMQ%20CI/badge.svg)](https://github.com/meltwater/gen_rmq/actions?query=workflow%3A%22GenRMQ+CI%22)
-[![Hex Version](http://img.shields.io/hexpm/v/gen_rmq.svg)](https://hex.pm/packages/gen_rmq)
-[![Coverage Status](https://coveralls.io/repos/github/meltwater/gen_rmq/badge.svg?branch=master)](https://coveralls.io/github/meltwater/gen_rmq?branch=master)
-[![Hex.pm Download Total](https://img.shields.io/hexpm/dt/gen_rmq.svg?style=flat-square)](https://hex.pm/packages/gen_rmq)
+[![Build Status](https://github.com/cdimonaco/gen_rmq/workflows/GenRMQ%20CI/badge.svg)](https://github.com/cdimonaco/gen_rmq/actions?query=workflow%3A%22GenRMQ+CI%22)
+[![Coverage Status](https://coveralls.io/repos/github/CDimonaco/gen_rmq/badge.svg?branch=master)](https://coveralls.io/github/CDimonaco/gen_rmq?branch=master)
 
 # GenRMQ
+
+** THIS IS A FORK OF https://github.com/meltwater/gen_rmq/, THE LIBRARY IS NOT ON HEX YET, WE ARE TRYING TO MAKE A NEW RELEASE ON THE ALREADY EXISTING HEX PACKAGE, INSTALLATION FROM GITHUB IS THE ONLY ONE SUPPORTED **
 
 GenRMQ is a set of [behaviours][behaviours] meant to be used to create
 RabbitMQ consumers and publishers, as fully OTP compliant GenServers.
@@ -27,17 +27,19 @@ GenRMQ provides the following functionality:
 
 ## Installation
 
-GenRMG requires Elixir 1.11 or newer, running on at least OTP 22.
+GenRMQ requires Elixir 1.14 or newer, running on at least OTP 26.
 
 ```elixir
 def deps do
-  [{:gen_rmq, "~> 4.0"}]
+  {:gen_rmq,
+    github: "cdimonaco/gen_rmq",
+    ref: "v5.0.0"},
 end
 ```
 
 ## Migrations
 
-Version `4.0.0` has been released. Please check [how to migrate to gen_rmq `4.0.0`][migrating_to_400].
+Version `5.0.0` has been released. Please check [how to migrate to gen_rmq `5.0.0`][migrating_to_500].
 
 ## Examples
 
@@ -141,6 +143,8 @@ GenRMQ.Publisher.publish(Publisher, Jason.encode!(%{msg: "msg"}))
 - [Version 1.0.0][migrating_to_100]
 - [Version 3.0.0][migrating_to_300]
 - [Version 4.0.0][migrating_to_400]
+- [Version 5.0.0][migrating_to_500]
+
 
 ## Running Tests
 
@@ -156,55 +160,39 @@ Please see our [Contribution Guidelines](CONTRIBUTING.md).
 
 Are you using GenRMQ in Production? Please let us know, we are curious to learn about your experiences!
 
-## Maintainers
-
-- Mateusz ([@mkorszun](https://github.com/mkorszun))
-
-The maintainers are responsible for the general project oversight, and empowering further trusted committers (see below).
-
-The maintainers are the ones that create new releases of GenRMQ.
-
-## Trusted Committers
-
-- Joel ([@vorce](https://github.com/vorce))
-- [@Shemeikka](https://github.com/Shemeikka)
-- Alexander ([@akoutmos](https://github.com/akoutmos))
-- (alumnus) Sebastian ([@spier](https://github.com/spier))
-
-Trusted Committers are members of our community who we have explicitly added to our GitHub repository. Trusted Committers have elevated rights, allowing them to send in changes directly to branches and to approve Pull Requests. For details see [TRUSTED-COMMITTERS.md][trusted_commiters].
-
 _Note:_ Maintainers and Trusted Committers are listed in [.github/CODEOWNERS][code_owners] in order to automatically assign PR reviews to them.
 
 ## License
 
 The [MIT License][license].
 
-Copyright (c) Meltwater Inc. [underthehood.meltwater.com][underthehood]
+Copyright (c) Meltwater Inc. [underthehood.meltwater.com][underthehood] until version 4.0.0
 
 [behaviours]: https://elixir-lang.org/getting-started/typespecs-and-behaviours.html#behaviours
 [amqp]: https://github.com/pma/amqp
-[migrating_to_100]: https://github.com/meltwater/gen_rmq/blob/master/documentation/migrations/1.0.0.md
-[migrating_to_300]: https://github.com/meltwater/gen_rmq/blob/master/documentation/migrations/3.0.0.md
-[migrating_to_400]: https://github.com/meltwater/gen_rmq/blob/master/documentation/migrations/4.0.0.md
-[consumer_doc]: https://github.com/meltwater/gen_rmq/blob/master/lib/consumer.ex
+[migrating_to_100]: https://github.com/cdimonaco/gen_rmq/blob/master/documentation/migrations/1.0.0.md
+[migrating_to_300]: https://github.com/cdimonaco/gen_rmq/blob/master/documentation/migrations/3.0.0.md
+[migrating_to_400]: https://github.com/cdimonaco/gen_rmq/blob/master/documentation/migrations/4.0.0.md
+[migrating_to_500]: https://github.com/cdimonaco/gen_rmq/blob/master/documentation/migrations/5.0.0.md
+[consumer_doc]: https://github.com/cdimonaco/gen_rmq/blob/master/lib/consumer.ex
 [docker_compose]: https://docs.docker.com/compose/
 [github_prs]: https://help.github.com/articles/about-pull-requests/
-[gen_rmq_issues]: https://github.com/meltwater/gen_rmq/issues
+[gen_rmq_issues]: https://github.com/cdimonaco/gen_rmq/issues
 [priority_queues]: https://www.rabbitmq.com/priority.html
 [underthehood]: http://underthehood.meltwater.com/
-[examples]: https://github.com/meltwater/gen_rmq/blob/master/documentation/examples
-[example_consumer]: https://github.com/meltwater/gen_rmq/blob/master/documentation/examples/consumer.ex
-[example_publisher]: https://github.com/meltwater/gen_rmq/blob/master/documentation/examples/publisher.ex
-[example_processor]: https://github.com/meltwater/gen_rmq/blob/master/documentation/examples/processor.ex
-[example_rabbit_case]: https://github.com/meltwater/gen_rmq/blob/master/test/gen_rmq_publisher_test.exs
-[guide_consumer_basic_setup]: https://github.com/meltwater/gen_rmq/blob/master/documentation/guides/consumer/basic_setup.md
-[guide_consumer_with_custom_deadletter_configuration]: https://github.com/meltwater/gen_rmq/blob/master/documentation/guides/consumer/with_custom_deadletter_configuration.md
-[guide_consumer_with_custom_exchange_type]: https://github.com/meltwater/gen_rmq/blob/master/documentation/guides/consumer/with_custom_exchange_type.md
-[guide_consumer_with_custom_queue_configuration]: https://github.com/meltwater/gen_rmq/blob/master/documentation/guides/consumer/with_custom_queue_configuration.md
-[without_deadletter_configuration]: https://github.com/meltwater/gen_rmq/blob/master/documentation/guides/consumer/without_deadletter_configuration.md
-[with_quorum_queue_type]: https://github.com/meltwater/gen_rmq/blob/master/documentation/guides/consumer/with_quorum_queue_type.md
-[consumer_telemetry_events]: https://github.com/meltwater/gen_rmq/blob/master/lib/gen_rmq/consumer/telemetry.ex
-[publisher_telemetry_events]: https://github.com/meltwater/gen_rmq/blob/master/lib/gen_rmq/publisher/telemetry.ex
-[trusted_commiters]: https://github.com/meltwater/gen_rmq/blob/master/TRUSTED-COMMITTERS.md
-[code_owners]: https://github.com/meltwater/gen_rmq/blob/master/.github/CODEOWNERS
-[license]: https://github.com/meltwater/gen_rmq/blob/master/LICENSE
+[examples]: https://github.com/cdimonaco/gen_rmq/blob/master/documentation/examples
+[example_consumer]: https://github.com/cdimonaco/gen_rmq/blob/master/documentation/examples/consumer.ex
+[example_publisher]: https://github.com/cdimonaco/gen_rmq/blob/master/documentation/examples/publisher.ex
+[example_processor]: https://github.com/cdimonaco/gen_rmq/blob/master/documentation/examples/processor.ex
+[example_rabbit_case]: https://github.com/cdimonaco/gen_rmq/blob/master/test/gen_rmq_publisher_test.exs
+[guide_consumer_basic_setup]: https://github.com/cdimonaco/gen_rmq/blob/master/documentation/guides/consumer/basic_setup.md
+[guide_consumer_with_custom_deadletter_configuration]: https://github.com/cdimonaco/gen_rmq/blob/master/documentation/guides/consumer/with_custom_deadletter_configuration.md
+[guide_consumer_with_custom_exchange_type]: https://github.com/cdimonaco/gen_rmq/blob/master/documentation/guides/consumer/with_custom_exchange_type.md
+[guide_consumer_with_custom_queue_configuration]: https://github.com/cdimonaco/gen_rmq/blob/master/documentation/guides/consumer/with_custom_queue_configuration.md
+[without_deadletter_configuration]: https://github.com/cdimonaco/gen_rmq/blob/master/documentation/guides/consumer/without_deadletter_configuration.md
+[with_quorum_queue_type]: https://github.com/cdimonaco/gen_rmq/blob/master/documentation/guides/consumer/with_quorum_queue_type.md
+[consumer_telemetry_events]: https://github.com/cdimonaco/gen_rmq/blob/master/lib/gen_rmq/consumer/telemetry.ex
+[publisher_telemetry_events]: https://github.com/cdimonaco/gen_rmq/blob/master/lib/gen_rmq/publisher/telemetry.ex
+[trusted_commiters]: https://github.com/cdimonaco/gen_rmq/blob/master/TRUSTED-COMMITTERS.md
+[code_owners]: https://github.com/cdimonaco/gen_rmq/blob/master/.github/CODEOWNERS
+[license]: https://github.com/cdimonaco/gen_rmq/blob/master/LICENSE
