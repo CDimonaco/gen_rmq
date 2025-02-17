@@ -131,7 +131,7 @@ defmodule GenRMQ.Publisher do
 
   """
   @spec publish(
-          publisher :: atom | pid,
+          publisher :: atom | pid | {:global, term} | {:via, module, term},
           message :: String.t(),
           routing_key :: String.t(),
           metadata :: Keyword.t()
